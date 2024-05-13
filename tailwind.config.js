@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        body: ["Gotham"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,6 +54,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        cec_primary: "#0A4C7D",
+        cec_primaryDark: "#12304C",
+        cec_primaryDarker: "#0F1F30",
+        cec_secondary: "#FFE86F",
+        cec_secondaryDark: "#FDC759",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -71,7 +79,12 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        buffet: "url('./src/assets/images/buffet-background.jpg')",
+        "buffet-blur": "url('./src/assets/images/buffet-blur-background.png')",
+      },
     },
   },
+  // eslint-disable-next-line no-undef
   plugins: [require("tailwindcss-animate")],
-}
+};
