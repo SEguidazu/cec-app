@@ -8,8 +8,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useAuth from "@/hooks/useAuth";
 
-import { MemberType } from "@/types";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -27,10 +25,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-
 import { MoveRight } from "lucide-react";
-
 import EscudoCEC from "@/assets/images/cec-escudo.png";
+
+import { MemberType } from "@/types";
 
 const formSchema = z.object({
   dni: z.coerce
