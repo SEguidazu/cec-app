@@ -32,8 +32,6 @@ import { MoveRight } from "lucide-react";
 
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 
-import { DATA_RESPONSE_200 } from "@/mock/cec_publico";
-
 const formSchema = z.object({
   dni: z.coerce
     .number({
@@ -75,17 +73,18 @@ function Login() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // const response = await axios.post(
-      //   "/auth",
-      //   JSON.stringify({
-      //     NroSocio: values.memberId,
-      //     DNI: values.dni,
-      //   })
-      // );
+      const response = await axios.post("/auth", {
+        NroSocio: values.memberId,
+        DNI: values.dni,
+      });
 
-      const response = DATA_RESPONSE_200;
-      setAuth({ user: response.user, accessToken: response.accessToken });
-      navigate(from, { replace: true });
+      if (response.status === 200 && !response.data.hasErrors) {
+        setAuth({
+          user: response.data.user,
+          accessToken: response.data.accessToken,
+        });
+        navigate(from, { replace: true });
+      }
     } catch (error) {
       if (isAxiosError(error)) {
         setErrorMsg(error?.response?.data?.errorMessage);

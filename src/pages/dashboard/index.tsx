@@ -1,3 +1,5 @@
+import useAuth from "@/hooks/useAuth";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,6 +9,10 @@ import { QrCode } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 
 function Dashboard() {
+  const { auth } = useAuth();
+
+  console.log("Auth: ", auth);
+
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
       <figure className="rounded-full bg-cec_primary p-2 mb-8">
