@@ -1,17 +1,44 @@
+import { useEffect, useState } from "react";
+import { memberService } from "@/service/memberService";
+import { isAxiosError } from "axios";
 import useAuth from "@/hooks/useAuth";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
-import { QrCode } from "lucide-react";
+import { QrCode, AlertCircle } from "lucide-react";
 
 import EscudoCEC from "@/assets/images/cec-escudo.png";
+import { Member } from "@/types";
 
 function Dashboard() {
   const { auth } = useAuth();
 
-  console.log("Auth: ", auth);
+  const [member, setMember] = useState<Member | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchMemberData = async () => {
+      try {
+        const response = await memberService.fetchMemberData(auth.accessToken!);
+
+        setMember(response[0]);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          setErrorMsg(error?.response?.data?.errorMessage);
+        } else {
+          setErrorMsg(
+            "Se produjo un error inesperado, intente nuevamente más tarde."
+          );
+        }
+      }
+    };
+
+    fetchMemberData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -31,15 +58,7 @@ function Dashboard() {
         <Input
           id="firstname"
           type="text"
-          value="Bautista"
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
-
-        <Label htmlFor="lastname">Apellido</Label>
-        <Input
-          id="lastname"
-          type="text"
+          value={member?.socioName.trim()}
           disabled
           className="text-base text-white bg-cec_primary disabled:opacity-90"
         />
@@ -48,6 +67,7 @@ function Dashboard() {
         <Input
           id="dni"
           type="number"
+          value={member?.socioDni}
           disabled
           className="text-base text-white bg-cec_primary disabled:opacity-90"
         />
@@ -56,6 +76,7 @@ function Dashboard() {
         <Input
           id="memberType"
           type="text"
+          value={member?.categoriaSocio.trim()}
           disabled
           className="text-base text-white bg-cec_primary disabled:opacity-90"
         />
@@ -83,6 +104,14 @@ function Dashboard() {
           disabled
           className="text-base text-white bg-cec_primary disabled:opacity-90"
         />
+
+        {!!errorMsg && (
+          <Alert className="col-span-2 mt-2" variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Tuvimos un problema!</AlertTitle>
+            <AlertDescription>{errorMsg}</AlertDescription>
+          </Alert>
+        )}
       </section>
 
       <Button

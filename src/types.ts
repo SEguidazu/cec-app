@@ -6,6 +6,14 @@ export enum MemberType {
   VITALICIO = "VITALICIO",
 }
 
+export type Member = {
+  categoriaSocio: string;
+  socioDni: number;
+  socioName: string;
+  socioNumeroSocio: number;
+  socioUId: string;
+};
+
 export type User = {
   id: number;
   uId: string;

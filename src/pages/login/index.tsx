@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "@/api/axios";
+import { memberService } from "@/service/memberService";
 import { isAxiosError } from "axios";
 
 import { useForm } from "react-hook-form";
@@ -71,18 +71,13 @@ function Login() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post("/auth", {
-        NroSocio: values.memberId,
-        DNI: values.dni,
-      });
+      const response = await memberService.login(values.dni, values.memberId);
 
-      if (response.status === 200 && !response.data.hasErrors) {
-        setAuth({
-          user: response.data.user,
-          accessToken: response.data.accessToken,
-        });
-        navigate(from, { replace: true });
-      }
+      setAuth({
+        user: response.user,
+        accessToken: response.accessToken,
+      });
+      navigate(from, { replace: true });
     } catch (error) {
       if (isAxiosError(error)) {
         setErrorMsg(error?.response?.data?.errorMessage);
@@ -121,8 +116,8 @@ function Login() {
                     <Input
                       type="number"
                       placeholder="Tu DNI"
-                      {...field}
                       aria-describedby="dni-message"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage id="dni-message" className="font-bold" />
