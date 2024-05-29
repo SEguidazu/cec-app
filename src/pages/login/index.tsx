@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { memberService } from "@/service/memberService";
 import { isAxiosError } from "axios";
@@ -25,7 +25,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { MoveRight } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import { MoveRight, AlertCircle } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 
 import { MemberType } from "@/types";
@@ -55,8 +57,6 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname ?? "/dashboard";
-
-  const errorRef = useRef<HTMLParagraphElement>(null);
 
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -176,13 +176,15 @@ function Login() {
                 </FormItem>
               )}
             />
-            <p
-              ref={errorRef}
-              className={errorMsg ? "text-sm text-destructive" : "hidden"}
-              aria-live="assertive"
-            >
-              {errorMsg}
-            </p>
+
+            {!!errorMsg && (
+              <Alert className="col-span-2 mt-2" variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Ha ocurrido un error</AlertTitle>
+                <AlertDescription>{errorMsg}</AlertDescription>
+              </Alert>
+            )}
+
             <Button
               type="submit"
               size="lg"

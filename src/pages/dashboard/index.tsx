@@ -85,14 +85,7 @@ function Dashboard() {
         <Input
           id="activity"
           type="text"
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
-
-        <Label htmlFor="category">División</Label>
-        <Input
-          id="category"
-          type="text"
+          value={member?.actividad.trim()}
           disabled
           className="text-base text-white bg-cec_primary disabled:opacity-90"
         />
@@ -101,6 +94,7 @@ function Dashboard() {
         <Input
           id="memberSituation"
           type="text"
+          value={member?.situacion.trim()}
           disabled
           className="text-base text-white bg-cec_primary disabled:opacity-90"
         />
