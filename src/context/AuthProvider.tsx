@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useState } from "react";
-import { User } from "@/types";
+import { Member, User } from "@/types";
 
 type AuthContextType = {
   auth: AuthContextState;
@@ -8,17 +8,19 @@ type AuthContextType = {
 
 type AuthContextState = {
   user: User | null;
+  members: Array<Member>
   accessToken: string | null;
 };
 
 const initialState: AuthContextState = {
   user: null,
+  members: [],
   accessToken: null,
 };
 
 const authContextDefault = {
   auth: initialState,
-  setAuth: () => {},
+  setAuth: () => { },
 };
 
 const AuthContext = createContext<AuthContextType>(authContextDefault);

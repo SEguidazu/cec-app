@@ -55,8 +55,6 @@ function Login() {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname ?? "/dashboard";
 
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -77,7 +75,7 @@ function Login() {
         user: response.user,
         accessToken: response.accessToken,
       });
-      navigate(from, { replace: true });
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       if (isAxiosError(error)) {
         setErrorMsg(error?.response?.data?.errorMessage);
@@ -99,7 +97,7 @@ function Login() {
 
       <section
         id="login-form"
-        className="max-w-72 w-full p-4 rounded-lg shadow-lg bg-white"
+        className="max-w-80 w-full p-4 rounded-lg shadow-lg bg-white"
       >
         <Form {...form}>
           <form
@@ -188,10 +186,10 @@ function Login() {
             <Button
               type="submit"
               size="lg"
-              className="flex items-center gap-x-3 text-lg rounded-lg bg-cec_primary mx-auto"
+              className="w-full flex items-center gap-x-3 text-lg rounded-lg bg-cec_primary"
             >
               Iniciar sesión
-              <MoveRight className=" w-6" />
+              <MoveRight className="w-6" />
             </Button>
           </form>
         </Form>

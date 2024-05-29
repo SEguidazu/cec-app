@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 
-import UserAuthentication from "@/routes/guard/UserAuthentication";
-
 import Layout from "@/pages/layout";
 import Login from "@/pages/login";
 import Dashboard from "@/pages/dashboard";
+import MemberDetails from "@/pages/memberDetails";
+
+import UserAuthentication from "@/routes/guard/UserAuthentication";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
 
         <Route element={<UserAuthentication />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard/:memberId" element={<MemberDetails />} />
         </Route>
       </Route>
     </Routes>

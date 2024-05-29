@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { memberService } from "@/service/memberService";
 import { isAxiosError } from "axios";
 import useAuth from "@/hooks/useAuth";
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 
-import { QrCode, AlertCircle } from "lucide-react";
-
+import { AlertCircle } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
+
 import { Member } from "@/types";
 
 function Dashboard() {
-  const { auth } = useAuth();
+  const { auth: { accessToken, members }, setAuth
+  } = useAuth();
 
-  const [member, setMember] = useState<Member | null>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        const response = await memberService.fetchMemberData(auth.accessToken!);
+        const response = await memberService.fetchMemberData(accessToken!);
 
-        setMember(response[0]);
+        setAuth({ members: response });
       } catch (error) {
         if (isAxiosError(error)) {
           setErrorMsg(error?.response?.data?.errorMessage);
@@ -42,62 +40,25 @@ function Dashboard() {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
-      <figure className="rounded-full bg-cec_primary p-2 mb-8">
-        <img
-          src={EscudoCEC}
-          alt=""
-          className="max-w-28	mx-auto rounded-full overflow-hidden"
-        />
-      </figure>
+      <img
+        src={EscudoCEC}
+        alt="Círculo de Ex Cadetes del Liceo Militar Genral San Martín"
+        className="max-w-32	mx-auto mb-8"
+      />
 
       <section
         id="user-data"
-        className="max-w-80 w-full grid grid-cols-[auto,1fr] gap-3 items-center p-4 rounded-lg shadow-lg bg-white"
+        className="max-w-80 w-full grid grid-cols-1 gap-3 items-center p-4 rounded-lg shadow-lg bg-white"
       >
-        <Label htmlFor="name">Nombre</Label>
-        <Input
-          id="firstname"
-          type="text"
-          value={member?.socioName.trim()}
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
+        <h2 className="text-base font-medium mb-2">Seleccione un socio para ver su detalle:</h2>
 
-        <Label htmlFor="dni">DNI</Label>
-        <Input
-          id="dni"
-          type="number"
-          value={member?.socioDni}
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
-
-        <Label htmlFor="memberType">Cat. Socio</Label>
-        <Input
-          id="memberType"
-          type="text"
-          value={member?.categoriaSocio.trim()}
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
-
-        <Label htmlFor="activity">Actividad</Label>
-        <Input
-          id="activity"
-          type="text"
-          value={member?.actividad.trim()}
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
-
-        <Label htmlFor="memberSituation">Sit. Socio</Label>
-        <Input
-          id="memberSituation"
-          type="text"
-          value={member?.situacion.trim()}
-          disabled
-          className="text-base text-white bg-cec_primary disabled:opacity-90"
-        />
+        <ul className="text-center grid gap-3">
+          {members.map((member: Member) => (
+            <li key={member.socioUId}>
+              <Link to={`/dashboard/${member.socioNumeroSocio}`} className='block text-lg text-white py-2 px-1 rounded-lg bg-cec_primary'>{member.socioName.trim()}</Link>
+            </li>
+          ))}
+        </ul>
 
         {!!errorMsg && (
           <Alert className="col-span-2 mt-2" variant="destructive">
@@ -107,14 +68,6 @@ function Dashboard() {
           </Alert>
         )}
       </section>
-
-      <Button
-        size="lg"
-        className="flex items-center gap-x-3 text-lg rounded-lg bg-cec_primary mt-5 mx-auto"
-      >
-        Generar QR
-        <QrCode className="w-6" />
-      </Button>
     </div>
   );
 }
