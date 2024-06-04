@@ -79,10 +79,6 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      backgroundImage: {
-        buffet: "url('./src/assets/images/buffet-background.jpg')",
-        "buffet-blur": "url('./src/assets/images/buffet-blur-background.png')",
-      },
     },
   },
   // eslint-disable-next-line no-undef

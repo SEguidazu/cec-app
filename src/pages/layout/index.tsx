@@ -4,13 +4,13 @@ import EscudoCECLMSM from "@/assets/images/cec-liceo-militar.png";
 
 const Layout = () => {
   return (
-    <main className="App bg-buffet-blur bg-cover bg-center bg-primary relative">
+    <main className="App bg-[url('@/assets/images/buffet-blur-background.png')] bg-cover bg-center bg-cec_primaryDarker relative">
       <Outlet />
 
       <img
         src={EscudoCECLMSM}
         alt=""
-        className="max-w-52	mx-auto absolute inset-x-0 bottom-3"
+        className="max-w-52	mx-auto absolute inset-x-0 bottom-6"
       />
     </main>
   );
