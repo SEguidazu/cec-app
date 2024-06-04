@@ -3,13 +3,19 @@ import { Member, User } from "@/types";
 
 type AuthContextType = {
   auth: AuthContextState;
-  setAuth: (data: AuthContextState) => void;
+  setAuth: (data: AuthContextUpdate) => void;
 };
 
 type AuthContextState = {
   user: User | null;
   members: Array<Member>
   accessToken: string | null;
+};
+
+type AuthContextUpdate = {
+  user?: User | null;
+  members?: Array<Member>
+  accessToken?: string | null;
 };
 
 const initialState: AuthContextState = {
@@ -32,7 +38,7 @@ interface AuthInterface {
 export const AuthProvider = ({ children }: AuthInterface) => {
   const [auth, setAuth] = useState<AuthContextState>(initialState);
 
-  const handleSetAuth = (data: AuthContextState) =>
+  const handleSetAuth = (data: AuthContextUpdate) =>
     setAuth({ ...auth, ...data });
 
   return (

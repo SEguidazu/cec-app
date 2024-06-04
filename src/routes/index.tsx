@@ -10,12 +10,12 @@ import UserAuthentication from "@/routes/guard/UserAuthentication";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="login" element={<Login />} />
+      <Route path="" element={<Layout />}>
+        <Route path="/" element={<Login />} />
 
         <Route element={<UserAuthentication />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="dashboard/:memberId" element={<MemberDetails />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:memberId" element={<MemberDetails />} />
         </Route>
       </Route>
     </Routes>

@@ -8,7 +8,7 @@ const UserAuthentication = () => {
   return auth.user && auth.accessToken ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to="/" state={{ from: location }} replace />
   );
 };
 

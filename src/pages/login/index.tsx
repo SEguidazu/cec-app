@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { memberService } from "@/service/memberService";
 import { isAxiosError } from "axios";
 
@@ -75,6 +75,7 @@ function Login() {
         user: response.user,
         accessToken: response.accessToken,
       });
+
       navigate('/dashboard', { replace: true });
     } catch (error) {
       if (isAxiosError(error)) {
