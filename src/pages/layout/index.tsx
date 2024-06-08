@@ -1,8 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useMatch } from "react-router-dom";
+import { cn } from "@/lib/utils";
+
+import Header from "@/components/custom/header";
 
 const Layout = () => {
+  const match = useMatch('/')
+  const styles = match ? 'h-screen bg-cec_primaryDarker' : 'bg-white'
+
   return (
-    <main className="App h-screen bg-cover bg-center bg-cec_primaryDarker relative">
+    <main className={cn('App relative', styles)}>
+      {!match && <Header />}
+
       <Outlet />
     </main>
   );

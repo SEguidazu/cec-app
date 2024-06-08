@@ -4,10 +4,11 @@ import { memberService } from "@/service/memberService";
 import { isAxiosError } from "axios";
 import useAuth from "@/hooks/useAuth";
 
+import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import { AlertCircle } from "lucide-react";
-import EscudoCEC from "@/assets/images/cec-escudo.png";
+import { AlertCircle, User } from "lucide-react";
+import BuffetCEC from "@/assets/images/buffet-blur-background.png"
 
 import { Member } from "@/types";
 
@@ -39,23 +40,38 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
+    <>
       <img
-        src={EscudoCEC}
-        alt="Círculo de Ex Cadetes del Liceo Militar Genral San Martín"
-        className="max-w-32	mx-auto mb-8"
+        src={BuffetCEC}
+        alt=""
+        className="w-full max-h-36 object-cover"
       />
 
-      <section
-        id="user-data"
-        className="max-w-80 w-full grid grid-cols-1 gap-3 items-center p-4 rounded-lg shadow-lg bg-white"
+      <div
+        className="w-full p-4 bg-white"
       >
-        <h2 className="text-base font-medium mb-2">Seleccione un socio para ver su detalle:</h2>
+        <h1 className="text-Gotham font-bold text-xl text-black mb-2">¡Hola Milic@!</h1>
+        <p className="text-Inter text-lg text-black mb-5">Selecciona alguno de tus asociados para poder ver su informaci&oacute;n:</p>
 
-        <ul className="text-center grid gap-3">
+        <ul className="grid gap-3">
           {members.map((member: Member) => (
             <li key={member.socioUId}>
-              <Link to={`/dashboard/${member.socioNumeroSocio}`} className='block text-lg text-white py-2 px-1 rounded-lg bg-cec_primary'>{member.socioName.trim()}</Link>
+              <Link to={`/dashboard/${member.socioNumeroSocio}`} className='h-20 grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm'>
+                <figure className="row-span-2 inline-flex items-center justify-center rounded-full bg-cec_primaryDarker">
+                  <User className="w-10 h-10 stroke-cec_secondary" />
+                </figure>
+                <span className="text-Gotham font-medium text-lg text-black pt-1 col-span-2">
+                  {member.socioName.trim()}
+                </span>
+                <span className="text-Inter text-lg text-black -mt-1">
+                  <strong><u>DNI</u>: </strong>
+                  {member.socioDni}
+                </span>
+                <span className="text-Inter text-lg text-black -mt-1">
+                  <strong><u>Socio</u>: </strong>
+                  {member.socioNumeroSocio}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
@@ -63,12 +79,19 @@ function Dashboard() {
         {!!errorMsg && (
           <Alert className="col-span-2 mt-2" variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Tuvimos un problema!</AlertTitle>
+            <AlertTitle>Tuvimos un problema.</AlertTitle>
             <AlertDescription>{errorMsg}</AlertDescription>
           </Alert>
         )}
-      </section>
-    </div>
+
+        <Button
+          type="submit"
+          className="flex items-center gap-x-2 text-Gotham text-lg text-white rounded-md mt-10 bg-cec_primary"
+        >
+          Cerrar sesi&oacute;n
+        </Button>
+      </div>
+    </>
   );
 }
 

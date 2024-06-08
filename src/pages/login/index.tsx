@@ -182,7 +182,7 @@ function Login() {
             {!!errorMsg && (
               <Alert className="col-span-2 mt-2" variant="destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Ha ocurrido un error</AlertTitle>
+                <AlertTitle>Ha ocurrido un error.</AlertTitle>
                 <AlertDescription>{errorMsg}</AlertDescription>
               </Alert>
             )}
