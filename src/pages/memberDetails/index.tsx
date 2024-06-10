@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { QrCode, MoveLeft } from "lucide-react";
 
+import BuffetCEC from "@/assets/images/buffet-blur-background.png";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 import { Member } from "@/types";
 
@@ -21,15 +22,21 @@ function MemberDetails() {
     const memberSelected = members.find((member: Member) => member.socioNumeroSocio === Number(memberId)) ?? null
 
     setMemberDetails(memberSelected)
-  }, [members])
+  }, [members, memberId])
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
-      <figure className="rounded-full bg-cec_primary p-2 mb-8">
+    <div>
+      <img
+        src={BuffetCEC}
+        alt=""
+        className="w-full max-h-36 object-cover"
+      />
+
+      <figure className="max-w-32 w-full rounded-full bg-cec_primaryDarker p-1 z-10">
         <img
           src={EscudoCEC}
           alt=""
-          className="max-w-28	mx-auto rounded-full overflow-hidden"
+          className="w-full rounded-full overflow-hidden"
         />
       </figure>
 
