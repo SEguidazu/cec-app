@@ -77,7 +77,7 @@ function Login() {
         accessToken: response.accessToken,
       });
 
-      navigate('/dashboard', { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       if (isAxiosError(error)) {
         setErrorMsg(error?.response?.data?.errorMessage);
@@ -101,19 +101,22 @@ function Login() {
         id="login-form"
         className="max-w-72 w-full py-5 px-3 rounded-lg bg-white"
       >
-        <h1 className="text-Gotham font-bold text-xl text-black mb-2">¡Bienvenid@s!</h1>
-        <p className="text-Inter text-lg text-black mb-5">Ingres&aacute; tus datos de socio para entrar a nuestro club.</p>
+        <h1 className="font-body font-bold text-xl text-black mb-2">
+          ¡Bienvenid@s!
+        </h1>
+        <p className="text-Inter text-lg text-black mb-5">
+          Ingres&aacute; tus datos de socio para entrar a nuestro club.
+        </p>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full px-1"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full px-1">
             <FormField
               control={form.control}
               name="dni"
               render={({ field }) => (
                 <FormItem className="mb-3">
-                  <FormLabel className="text-Inter text-base text-black">Usuario</FormLabel>
+                  <FormLabel className="text-Inter text-base text-black">
+                    Usuario
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -131,7 +134,9 @@ function Login() {
               name="memberId"
               render={({ field }) => (
                 <FormItem className="mb-3">
-                  <FormLabel className="text-Inter text-base text-black">Contraseña</FormLabel>
+                  <FormLabel className="text-Inter text-base text-black">
+                    Contraseña
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -149,7 +154,9 @@ function Login() {
               name="memberType"
               render={({ field }) => (
                 <FormItem className="mb-3">
-                  <FormLabel className="text-Inter text-base text-black">Categor&iacute;a de Socio</FormLabel>
+                  <FormLabel className="text-Inter text-base text-black">
+                    Categor&iacute;a de Socio
+                  </FormLabel>
                   <Select onValueChange={field.onChange}>
                     <FormControl aria-describedby="memberType-message">
                       <SelectTrigger>
@@ -189,21 +196,16 @@ function Login() {
 
             <Button
               type="submit"
-              className="flex items-center gap-x-2 text-Gotham text-lg text-white rounded-md mt-5 bg-cec_primary"
+              className="flex items-center gap-x-2 font-body text-base text-white rounded-md mt-5 bg-cec_primary"
             >
               Iniciar sesi&oacute;n
               <ArrowRight className="w-5" />
             </Button>
           </form>
-
         </Form>
       </section>
 
-      <img
-        src={LiceoMilitarCEC}
-        alt=""
-        className="max-w-40	mx-auto"
-      />
+      <img src={LiceoMilitarCEC} alt="" className="max-w-40	mx-auto" />
     </div>
   );
 }

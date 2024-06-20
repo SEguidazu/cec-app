@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { AlertCircle, User } from "lucide-react";
-import BuffetCEC from "@/assets/images/buffet-blur-background.png"
 
 import { Member } from "@/types";
 
 function Dashboard() {
-  const { auth: { accessToken, members }, setAuth
+  const {
+    auth: { accessToken, members },
+    setAuth,
+    loggedOut,
   } = useAuth();
 
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -40,58 +42,58 @@ function Dashboard() {
   }, []);
 
   return (
-    <>
-      <img
-        src={BuffetCEC}
-        alt=""
-        className="w-full max-h-36 object-cover"
-      />
+    <div className="max-w-md w-full mx-auto p-4 bg-white">
+      <h1 className="font-body font-bold text-xl text-black mb-2">¡Hola!</h1>
+      <p className="text-Inter text-lg text-black mb-5">
+        Selecciona alguno de tus asociados para poder ver su informaci&oacute;n:
+      </p>
 
-      <div
-        className="w-full p-4 bg-white"
+      <ul className="grid gap-3">
+        {members.map((member: Member) => (
+          <li key={member.socioUId}>
+            <Link
+              to={`/dashboard/${member.socioNumeroSocio}`}
+              className="h-20 grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm hover:bg-slate-200"
+            >
+              <figure className="row-span-2 inline-flex items-center justify-center rounded-full bg-cec_primaryDarker">
+                <User className="w-10 h-10 stroke-cec_secondary" />
+              </figure>
+              <span className="font-body font-medium text-lg text-black pt-1 col-span-2">
+                {member.socioName.trim()}
+              </span>
+              <span className="text-Inter text-lg text-black -mt-1">
+                <strong>
+                  <u>DNI</u>:{" "}
+                </strong>
+                {member.socioDni}
+              </span>
+              <span className="text-Inter text-lg text-black -mt-1">
+                <strong>
+                  <u>Socio</u>:{" "}
+                </strong>
+                {member.socioNumeroSocio}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {!!errorMsg && (
+        <Alert className="col-span-2 mt-2" variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Tuvimos un problema.</AlertTitle>
+          <AlertDescription>{errorMsg}</AlertDescription>
+        </Alert>
+      )}
+
+      <Button
+        type="submit"
+        className="flex items-center gap-x-2 font-body text-base text-white rounded-md mt-10 bg-cec_primary"
+        onClick={() => loggedOut()}
       >
-        <h1 className="text-Gotham font-bold text-xl text-black mb-2">¡Hola Milic@!</h1>
-        <p className="text-Inter text-lg text-black mb-5">Selecciona alguno de tus asociados para poder ver su informaci&oacute;n:</p>
-
-        <ul className="grid gap-3">
-          {members.map((member: Member) => (
-            <li key={member.socioUId}>
-              <Link to={`/dashboard/${member.socioNumeroSocio}`} className='h-20 grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm'>
-                <figure className="row-span-2 inline-flex items-center justify-center rounded-full bg-cec_primaryDarker">
-                  <User className="w-10 h-10 stroke-cec_secondary" />
-                </figure>
-                <span className="text-Gotham font-medium text-lg text-black pt-1 col-span-2">
-                  {member.socioName.trim()}
-                </span>
-                <span className="text-Inter text-lg text-black -mt-1">
-                  <strong><u>DNI</u>: </strong>
-                  {member.socioDni}
-                </span>
-                <span className="text-Inter text-lg text-black -mt-1">
-                  <strong><u>Socio</u>: </strong>
-                  {member.socioNumeroSocio}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        {!!errorMsg && (
-          <Alert className="col-span-2 mt-2" variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Tuvimos un problema.</AlertTitle>
-            <AlertDescription>{errorMsg}</AlertDescription>
-          </Alert>
-        )}
-
-        <Button
-          type="submit"
-          className="flex items-center gap-x-2 text-Gotham text-lg text-white rounded-md mt-10 bg-cec_primary"
-        >
-          Cerrar sesi&oacute;n
-        </Button>
-      </div>
-    </>
+        Cerrar sesi&oacute;n
+      </Button>
+    </div>
   );
 }
 
