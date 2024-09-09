@@ -12,7 +12,9 @@ import EscudoCEC from "@/assets/images/cec-escudo.png";
 import { Member } from "@/types";
 
 function Dashboard() {
-  const { auth: { accessToken, members }, setAuth
+  const {
+    auth: { accessToken, members },
+    setAuth,
   } = useAuth();
 
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -20,9 +22,11 @@ function Dashboard() {
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        const response = await memberService.fetchMemberData(accessToken!);
+        if (!members || members.length === 0) {
+          const response = await memberService.fetchMemberData(accessToken!);
 
-        setAuth({ members: response });
+          setAuth({ members: response });
+        }
       } catch (error) {
         if (isAxiosError(error)) {
           setErrorMsg(error?.response?.data?.errorMessage);
@@ -50,12 +54,19 @@ function Dashboard() {
         id="user-data"
         className="max-w-80 w-full grid grid-cols-1 gap-3 items-center p-4 rounded-lg shadow-lg bg-white"
       >
-        <h2 className="text-base font-medium mb-2">Seleccione un socio para ver su detalle:</h2>
+        <h2 className="text-base font-medium mb-2">
+          Seleccione un socio para ver su detalle:
+        </h2>
 
         <ul className="text-center grid gap-3">
           {members.map((member: Member) => (
             <li key={member.socioUId}>
-              <Link to={`/dashboard/${member.socioNumeroSocio}`} className='block text-lg text-white py-2 px-1 rounded-lg bg-cec_primary'>{member.socioName.trim()}</Link>
+              <Link
+                to={`/dashboard/${member.socioNumeroSocio}`}
+                className="block text-lg text-white py-2 px-1 rounded-lg bg-cec_primary"
+              >
+                {member.socioName.trim()}
+              </Link>
             </li>
           ))}
         </ul>
