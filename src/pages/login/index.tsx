@@ -17,21 +17,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { ArrowRight, AlertCircle } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 import LiceoMilitarCEC from "@/assets/images/cec-liceo-militar.png";
-
-import { MemberType } from "@/types";
 
 const formSchema = z.object({
   dni: z.coerce
@@ -47,9 +38,6 @@ const formSchema = z.object({
     invalid_type_error: "El número de socio es inválido.",
     required_error: "El número de socio es requerido.",
   }),
-  memberType: z.nativeEnum(MemberType, {
-    required_error: "Debe seleccionar una categoría de socio.",
-  }),
 });
 
 function Login() {
@@ -64,7 +52,6 @@ function Login() {
     defaultValues: {
       dni: undefined,
       memberId: undefined,
-      memberType: undefined,
     },
   });
 
@@ -146,42 +133,6 @@ function Login() {
                     />
                   </FormControl>
                   <FormMessage id="memberId-message" className="font-bold" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="memberType"
-              render={({ field }) => (
-                <FormItem className="mb-3">
-                  <FormLabel className="text-Inter text-base text-black">
-                    Categor&iacute;a de Socio
-                  </FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl aria-describedby="memberType-message">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleccione su categoría de socio" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value={MemberType.ACTIVOS}>
-                        {MemberType.ACTIVOS}
-                      </SelectItem>
-                      <SelectItem value={MemberType.ADHERENTES}>
-                        {MemberType.ADHERENTES}
-                      </SelectItem>
-                      <SelectItem value={MemberType.CADETES}>
-                        {MemberType.CADETES}
-                      </SelectItem>
-                      <SelectItem value={MemberType.PRACTICA_DEPORTIVA}>
-                        {MemberType.PRACTICA_DEPORTIVA}
-                      </SelectItem>
-                      <SelectItem value={MemberType.VITALICIO}>
-                        {MemberType.VITALICIO}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage id="memberType-message" className="font-bold" />
                 </FormItem>
               )}
             />
