@@ -138,11 +138,20 @@ function Login() {
             />
 
             {!!errorMsg && (
-              <Alert className="col-span-2 mt-2" variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Ha ocurrido un error.</AlertTitle>
-                <AlertDescription>{errorMsg}</AlertDescription>
-              </Alert>
+              <>
+                <Alert className="col-span-2 mt-2 mb-1" variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Ha ocurrido un error.</AlertTitle>
+                  <AlertDescription>{errorMsg}</AlertDescription>
+                </Alert>
+                <span className="inline-block text-xs leading-normal">
+                  Si tiene algún inconveniente para iniciar sesión, comuníquese
+                  con Secretaria al mail
+                  <a href="mailto:secretariacecliceomilitargsm@yahoo.com.ar?subject=Error al iniciar sesión | App Socios">
+                    secretariacecliceomilitargsm@yahoo.com.ar
+                  </a>
+                </span>
+              </>
             )}
 
             <Button

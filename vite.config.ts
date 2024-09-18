@@ -16,9 +16,10 @@ export default defineConfig({
         lang: "es-AR",
         name: "Socios CEC",
         short_name: "Socios CEC",
-        description: "Web para acceso de socios del club CEC Liceo Militar",
-        theme_color: "#0A4C7D",
-        background_color: "#0A4C7D",
+        description:
+          "Web PWA para control de acceso de socios del club CEC Liceo Militar",
+        theme_color: "#0F1F30",
+        background_color: "#0F1F30",
         icons: [
           {
             src: "favicon-64x64.png",

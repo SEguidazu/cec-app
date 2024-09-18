@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 
 import { Member } from "@/types";
+import QrButton from "@/components/custom/qr-button";
 
 function MemberDetails() {
   const {
@@ -72,11 +73,15 @@ function MemberDetails() {
           <p className="text-xl">{memberDetails?.actividad ?? "SIN DATO"}</p>
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-2 mb-6">
           <h3 className="text-base font-bold underline">
             Situaci&oacute;n del socio
           </h3>
           <p className="text-xl">{memberDetails?.situacion ?? "SIN DATO"}</p>
+        </div>
+
+        <div className="col-span-2">
+          <QrButton />
         </div>
       </section>
 
