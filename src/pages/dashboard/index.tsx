@@ -23,9 +23,11 @@ function Dashboard() {
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        const response = await memberService.fetchMemberData(accessToken!);
+        if (!members || members.length === 0) {
+          const response = await memberService.fetchMemberData(accessToken!);
 
-        setAuth({ members: response });
+          setAuth({ members: response });
+        }
       } catch (error) {
         if (isAxiosError(error)) {
           setErrorMsg(error?.response?.data?.errorMessage);
