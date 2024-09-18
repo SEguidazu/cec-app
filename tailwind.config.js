@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 export default {
   darkMode: ["class"],
   content: [
@@ -18,7 +20,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ["Gotham"],
+        body: ["Gotham", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
