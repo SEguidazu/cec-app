@@ -17,26 +17,22 @@ export default defineConfig({
         name: "Socios CEC",
         short_name: "Socios CEC",
         description: "Web para acceso de socios del club CEC Liceo Militar",
-        theme_color: "#0F1F30",
-        background_color: "#0F1F30",
+        theme_color: "#0A4C7D",
+        background_color: "#0A4C7D",
         icons: [
           {
-            src: "pwa-64x64.png",
+            src: "favicon-64x64.png",
             sizes: "64x64",
             type: "image/png",
           },
           {
-            src: "pwa-192x192.png",
+            src: "favicon-192x192.png",
             sizes: "192x192",
             type: "image/png",
+            purpose: "any",
           },
           {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-          {
-            src: "maskable-icon-512x512.png",
+            src: "favicon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",

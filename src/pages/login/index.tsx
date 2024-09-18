@@ -27,8 +27,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import { MoveRight, AlertCircle } from "lucide-react";
+import { ArrowRight, AlertCircle } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
+import LiceoMilitarCEC from "@/assets/images/cec-liceo-militar.png";
 
 import { MemberType } from "@/types";
 
@@ -76,7 +77,7 @@ function Login() {
         accessToken: response.accessToken,
       });
 
-      navigate('/dashboard', { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       if (isAxiosError(error)) {
         setErrorMsg(error?.response?.data?.errorMessage);
@@ -89,28 +90,33 @@ function Login() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
+    <div className="w-full h-full flex flex-col gap-y-8 justify-center items-center">
       <img
         src={EscudoCEC}
         alt="Círculo de Ex Cadetes del Liceo Militar Genral San Martín"
-        className="max-w-32	mx-auto mb-8"
+        className="max-w-32	mx-auto"
       />
 
       <section
         id="login-form"
-        className="max-w-80 w-full p-4 rounded-lg shadow-lg bg-white"
+        className="max-w-72 w-full py-5 px-3 rounded-lg bg-white"
       >
+        <h1 className="font-body font-bold text-xl text-black mb-2">
+          ¡Bienvenid@s!
+        </h1>
+        <p className="text-Inter text-lg text-black mb-5">
+          Ingres&aacute; tus datos de socio para entrar a nuestro club.
+        </p>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full px-1">
             <FormField
               control={form.control}
               name="dni"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Usuario</FormLabel>
+                <FormItem className="mb-3">
+                  <FormLabel className="text-Inter text-base text-black">
+                    Usuario
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -127,8 +133,10 @@ function Login() {
               control={form.control}
               name="memberId"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contraseña</FormLabel>
+                <FormItem className="mb-3">
+                  <FormLabel className="text-Inter text-base text-black">
+                    Contraseña
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -145,8 +153,10 @@ function Login() {
               control={form.control}
               name="memberType"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categoría de Socio</FormLabel>
+                <FormItem className="mb-3">
+                  <FormLabel className="text-Inter text-base text-black">
+                    Categor&iacute;a de Socio
+                  </FormLabel>
                   <Select onValueChange={field.onChange}>
                     <FormControl aria-describedby="memberType-message">
                       <SelectTrigger>
@@ -179,22 +189,23 @@ function Login() {
             {!!errorMsg && (
               <Alert className="col-span-2 mt-2" variant="destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Ha ocurrido un error</AlertTitle>
+                <AlertTitle>Ha ocurrido un error.</AlertTitle>
                 <AlertDescription>{errorMsg}</AlertDescription>
               </Alert>
             )}
 
             <Button
               type="submit"
-              size="lg"
-              className="w-full flex items-center gap-x-3 text-lg rounded-lg bg-cec_primary"
+              className="flex items-center gap-x-2 font-body text-base text-white rounded-md mt-5 bg-cec_primary"
             >
-              Iniciar sesión
-              <MoveRight className="w-6" />
+              Iniciar sesi&oacute;n
+              <ArrowRight className="w-5" />
             </Button>
           </form>
         </Form>
       </section>
+
+      <img src={LiceoMilitarCEC} alt="" className="max-w-40	mx-auto" />
     </div>
   );
 }

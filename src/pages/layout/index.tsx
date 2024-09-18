@@ -1,17 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useMatch } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
-import EscudoCECLMSM from "@/assets/images/cec-liceo-militar.png";
+import Header from "@/components/custom/header";
 
 const Layout = () => {
-  return (
-    <main className="App bg-[url('@/assets/images/buffet-blur-background.png')] bg-cover bg-center bg-cec_primaryDarker relative">
-      <Outlet />
+  const match = useMatch('/')
+  const styles = match ? 'min-h-screen bg-cec_primaryDarker py-4' : 'bg-white'
 
-      <img
-        src={EscudoCECLMSM}
-        alt=""
-        className="max-w-52	mx-auto absolute inset-x-0 bottom-6"
-      />
+  return (
+    <main className={cn('App relative', styles)}>
+      {!match && <Header />}
+
+      <Outlet />
     </main>
   );
 };
