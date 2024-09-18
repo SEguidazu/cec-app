@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 
-import { Button } from "@/components/ui/button";
-
-import { QrCode, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import EscudoCEC from "@/assets/images/cec-escudo.png";
 
@@ -74,20 +72,12 @@ function MemberDetails() {
           <p className="text-xl">{memberDetails?.actividad ?? "SIN DATO"}</p>
         </div>
 
-        <div className="col-span-2 mb-6">
+        <div className="col-span-2">
           <h3 className="text-base font-bold underline">
             Situaci&oacute;n del socio
           </h3>
           <p className="text-xl">{memberDetails?.situacion ?? "SIN DATO"}</p>
         </div>
-
-        <Button
-          size="lg"
-          className="flex items-center gap-x-3 rounded-lg bg-cec_primary mx-auto col-span-2 text-base font-body font-bold"
-        >
-          Generar QR
-          <QrCode className="w-6" />
-        </Button>
       </section>
 
       <div className="max-w-80 w-full mx-auto mt-6">

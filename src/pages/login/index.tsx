@@ -90,7 +90,7 @@ function Login() {
   }
 
   return (
-    <div className="w-full h-full flex flex-col gap-y-16 justify-center items-center">
+    <div className="w-full h-full flex flex-col gap-y-8 justify-center items-center">
       <img
         src={EscudoCEC}
         alt="Círculo de Ex Cadetes del Liceo Militar Genral San Martín"

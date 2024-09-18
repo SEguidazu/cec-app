@@ -5,7 +5,7 @@ import Header from "@/components/custom/header";
 
 const Layout = () => {
   const match = useMatch('/')
-  const styles = match ? 'h-screen bg-cec_primaryDarker' : 'bg-white'
+  const styles = match ? 'min-h-screen bg-cec_primaryDarker py-4' : 'bg-white'
 
   return (
     <main className={cn('App relative', styles)}>
