@@ -89,7 +89,7 @@ function Login() {
         className="max-w-72 w-full py-5 px-3 rounded-lg bg-white"
       >
         <h1 className="font-body font-bold text-xl text-black mb-2">
-          ¡Bienvenid@s!
+          ¡Bienvenidos!
         </h1>
         <p className="text-Inter text-lg text-black mb-5">
           Ingres&aacute; tus datos de socio para entrar a nuestro club.
