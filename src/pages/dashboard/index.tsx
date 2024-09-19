@@ -64,15 +64,10 @@ function Dashboard() {
                 {member.socioName.trim()}
               </span>
               <span className="text-Inter text-lg text-black -mt-1">
-                <strong>
-                  <u>DNI</u>:{" "}
-                </strong>
-                {member.socioDni}
+                <strong className="underline">DNI</strong>: {member.socioDni}
               </span>
               <span className="text-Inter text-lg text-black -mt-1">
-                <strong>
-                  <u>Socio</u>:{" "}
-                </strong>
+                <strong className="underline">Socio</strong>:{" "}
                 {member.socioNumeroSocio}
               </span>
             </Link>

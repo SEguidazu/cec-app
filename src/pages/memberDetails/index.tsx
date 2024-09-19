@@ -41,42 +41,38 @@ function MemberDetails() {
         id="member-details"
         className="max-w-80 w-full -mt-3 mx-auto p-5 grid grid-cols-2  items-center rounded-md border border-cec_primaryDark shadow-sm"
       >
-        <h2 className="font-body font-medium text-xl text-center col-span-2 mb-2">
+        <h1 className="font-body font-medium text-xl text-center col-span-2 mb-2">
           {memberDetails?.socioName.trim() ?? "NOMBRE DEL SOCIO"}
-        </h2>
+        </h1>
 
         <span className="text-base text-center border-r border-cec_primaryDark">
-          <strong>
-            <u>DNI</u>:
-          </strong>{" "}
+          <strong className="underline">DNI</strong>:{" "}
           {memberDetails?.socioDni ?? "SIN DATO"}
         </span>
 
         <span className="text-base text-center">
-          <strong>
-            <u>Socio</u>:
-          </strong>{" "}
+          <strong className="underline">Socio</strong>:{" "}
           {memberDetails?.socioNumeroSocio ?? "SIN DATO"}
         </span>
 
         <div className="col-span-2 mt-4 mb-4">
-          <h3 className="text-base font-bold underline">
+          <h2 className="text-base font-bold underline">
             Categor&iacute;a de socio
-          </h3>
+          </h2>
           <p className="text-xl">
             {memberDetails?.categoriaSocio ?? "SIN DATO"}
           </p>
         </div>
 
         <div className="col-span-2 mb-4">
-          <h3 className="text-base font-bold underline">Actividad</h3>
+          <h2 className="text-base font-bold underline">Actividad</h2>
           <p className="text-xl">{memberDetails?.actividad ?? "SIN DATO"}</p>
         </div>
 
         <div className="col-span-2 mb-6">
-          <h3 className="text-base font-bold underline">
+          <h2 className="text-base font-bold underline">
             Situaci&oacute;n del socio
-          </h3>
+          </h2>
           <p className="text-xl">{memberDetails?.situacion ?? "SIN DATO"}</p>
         </div>
 

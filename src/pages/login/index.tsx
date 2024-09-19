@@ -105,14 +105,9 @@ function Login() {
                     Usuario
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Tu DNI"
-                      aria-describedby="dni-message"
-                      {...field}
-                    />
+                    <Input type="number" placeholder="Tu DNI" {...field} />
                   </FormControl>
-                  <FormMessage id="dni-message" className="font-bold" />
+                  <FormMessage className="font-bold" />
                 </FormItem>
               )}
             />
