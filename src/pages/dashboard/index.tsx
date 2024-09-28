@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { memberService } from "@/service/memberService";
 import { isAxiosError } from "axios";
-import useAuth from "@/hooks/useAuth";
+import useAuthStore from "@/store/auth";
 
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -12,11 +12,10 @@ import { AlertCircle, User } from "lucide-react";
 import { Member } from "@/types";
 
 function Dashboard() {
-  const {
-    auth: { accessToken, members },
-    setAuth,
-    loggedOut,
-  } = useAuth();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const members = useAuthStore((state) => state.members);
+  const addMembers = useAuthStore((state) => state.addMembers);
+  const loggedOut = useAuthStore((state) => state.loggedOut);
 
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -26,7 +25,7 @@ function Dashboard() {
         if (!members || members.length === 0) {
           const response = await memberService.fetchMemberData(accessToken!);
 
-          setAuth({ members: response });
+          addMembers({ members: response });
         }
       } catch (error) {
         if (isAxiosError(error)) {
