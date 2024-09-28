@@ -91,7 +91,7 @@ function Login() {
         <h1 className="font-body font-bold text-xl text-black mb-2">
           ¡Bienvenidos!
         </h1>
-        <p className="text-Inter text-lg text-black mb-5">
+        <p className="text-Inter text-md text-black mb-5">
           Ingres&aacute; tus datos de socio para entrar a nuestro club.
         </p>
         <Form {...form}>
