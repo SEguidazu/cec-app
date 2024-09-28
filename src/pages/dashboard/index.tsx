@@ -26,10 +26,14 @@ function Dashboard() {
           const response = await memberService.fetchMemberData(accessToken!);
 
           addMembers({ members: response });
+          setErrorMsg("");
         }
       } catch (error) {
         if (isAxiosError(error)) {
-          setErrorMsg(error?.response?.data?.errorMessage);
+          setErrorMsg(
+            error?.response?.data?.errorMessage ??
+              "Se produjo un error inesperado, intente iniciar sesión nuevamente."
+          );
         } else {
           setErrorMsg(
             "Se produjo un error inesperado, intente nuevamente más tarde."

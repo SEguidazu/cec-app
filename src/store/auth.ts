@@ -34,7 +34,7 @@ const useAuthStore = create<AuthState>()(
           set(() => ({ user: null, members: [], accessToken: null })),
         addMembers: ({ members }) => set(() => ({ members: members })),
       }),
-      { name: "bearStore" }
+      { name: "authStore" }
     )
   )
 );
