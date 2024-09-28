@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import useAuth from "@/hooks/useAuth";
+import useAuthStore from "@/store/auth";
 
 import { ArrowLeft } from "lucide-react";
 
@@ -10,9 +10,7 @@ import { Member } from "@/types";
 import QrButton from "@/components/custom/qr-button";
 
 function MemberDetails() {
-  const {
-    auth: { members },
-  } = useAuth();
+  const members = useAuthStore((state) => state.members);
   const { memberId } = useParams();
 
   const [memberDetails, setMemberDetails] = useState<Member | null>(null);
