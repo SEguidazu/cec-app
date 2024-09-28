@@ -6,7 +6,7 @@ import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useAuth from "@/hooks/useAuth";
+import useAuthStore from "@/store/auth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +41,7 @@ const formSchema = z.object({
 });
 
 function Login() {
-  const { setAuth } = useAuth();
+  const loggedIn = useAuthStore((state) => state.loggedIn);
 
   const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ function Login() {
     try {
       const response = await memberService.login(values.dni, values.memberId);
 
-      setAuth({
+      loggedIn({
         user: response.user,
         accessToken: response.accessToken,
       });
