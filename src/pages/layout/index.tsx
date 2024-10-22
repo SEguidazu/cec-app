@@ -2,6 +2,7 @@ import { Outlet, useMatch } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 import Header from "@/components/custom/header";
+import Footer from "@/components/custom/footer";
 
 const Layout = () => {
   const match = useMatch('/')
@@ -12,6 +13,8 @@ const Layout = () => {
       {!match && <Header />}
 
       <Outlet />
+
+      {match && <Footer isContained />}
     </main>
   );
 };

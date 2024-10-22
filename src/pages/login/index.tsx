@@ -22,7 +22,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { ArrowRight, AlertCircle } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec-escudo.png";
-import LiceoMilitarCEC from "@/assets/images/cec-liceo-militar.png";
 
 const formSchema = z.object({
   dni: z.coerce
@@ -139,11 +138,11 @@ function Login() {
                   <AlertTitle>Ha ocurrido un error.</AlertTitle>
                   <AlertDescription>{errorMsg}</AlertDescription>
                 </Alert>
-                <span className="inline-block text-xs leading-normal">
+                <span className="inline-block text-xs leading-normal text-balance">
                   Si tiene algún inconveniente para iniciar sesión, comuníquese
-                  con Secretaria al mail
-                  <a href="mailto:secretariacecliceomilitargsm@yahoo.com.ar?subject=Error al iniciar sesión | App Socios">
-                    secretariacecliceomilitargsm@yahoo.com.ar
+                  con Secretaria al mail{' '}
+                  <a href="mailto:secretariacecliceomilitargsm@yahoo.com.ar?subject=Error al iniciar sesión | App Socios" className="underline">
+                    secretariacecliceomilitargsm<br />@yahoo.com.ar
                   </a>
                 </span>
               </>
@@ -159,8 +158,6 @@ function Login() {
           </form>
         </Form>
       </section>
-
-      <img src={LiceoMilitarCEC} alt="" className="max-w-40	mx-auto" />
     </div>
   );
 }

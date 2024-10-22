@@ -6,6 +6,7 @@ import useAuthStore from "@/store/auth";
 
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Footer from "@/components/custom/footer";
 
 import { AlertCircle, User } from "lucide-react";
 
@@ -32,7 +33,7 @@ function Dashboard() {
         if (isAxiosError(error)) {
           setErrorMsg(
             error?.response?.data?.errorMessage ??
-              "Se produjo un error inesperado, intente iniciar sesión nuevamente."
+            "Se produjo un error inesperado, intente iniciar sesión nuevamente."
           );
         } else {
           setErrorMsg(
@@ -86,9 +87,11 @@ function Dashboard() {
         </Alert>
       )}
 
+      <Footer />
+
       <Button
         type="submit"
-        className="flex items-center gap-x-2 font-body text-base text-white rounded-md mt-10 bg-cec_primary"
+        className="flex items-center gap-x-2 font-body text-base text-white rounded-md mt-6 bg-cec_primary"
         onClick={() => loggedOut()}
       >
         Cerrar sesi&oacute;n
