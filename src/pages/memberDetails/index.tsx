@@ -4,7 +4,7 @@ import useAuthStore from "@/store/auth";
 
 import { ArrowLeft } from "lucide-react";
 
-import EscudoCEC from "@/assets/images/cec-escudo.png";
+import EscudoCEC from "@/assets/images/cec.svg";
 
 import { Member } from "@/types";
 import QrButton from "@/components/custom/qr-button";

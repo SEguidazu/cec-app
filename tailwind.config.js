@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import defaultTheme from 'tailwindcss/defaultTheme'
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class"],
@@ -60,7 +60,7 @@ export default {
         cec_primaryDark: "#12304C",
         cec_primaryDarker: "#0F1F30",
         cec_secondary: "#FFE86F",
-        cec_secondaryDark: "#FDC759",
+        cec_secondaryDark: "#f6a200",
       },
       borderRadius: {
         lg: "var(--radius)",

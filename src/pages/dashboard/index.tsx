@@ -33,7 +33,7 @@ function Dashboard() {
         if (isAxiosError(error)) {
           setErrorMsg(
             error?.response?.data?.errorMessage ??
-            "Se produjo un error inesperado, intente iniciar sesión nuevamente."
+              "Se produjo un error inesperado, intente iniciar sesión nuevamente."
           );
         } else {
           setErrorMsg(
@@ -62,7 +62,7 @@ function Dashboard() {
               className="h-20 grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm hover:bg-slate-200"
             >
               <figure className="row-span-2 inline-flex items-center justify-center rounded-full bg-cec_primaryDarker">
-                <User className="w-10 h-10 stroke-cec_secondary" />
+                <User className="w-10 h-10 stroke-cec_secondaryDark" />
               </figure>
               <span className="font-body font-medium text-lg text-black pt-1 col-span-2">
                 {member.socioName.trim()}
