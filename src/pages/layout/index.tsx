@@ -5,11 +5,11 @@ import Header from "@/components/custom/header";
 import Footer from "@/components/custom/footer";
 
 const Layout = () => {
-  const match = useMatch('/')
-  const styles = match ? 'min-h-screen bg-cec_primaryDarker py-4' : 'bg-white'
+  const match = useMatch("/login");
+  const styles = match ? "min-h-screen bg-cec_primaryDarker py-4" : "bg-white";
 
   return (
-    <main className={cn('App relative', styles)}>
+    <main className={cn("App relative", styles)}>
       {!match && <Header />}
 
       <Outlet />

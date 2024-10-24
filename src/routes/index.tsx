@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Layout from "@/pages/layout";
 import Login from "@/pages/login";
@@ -11,7 +11,9 @@ function App() {
   return (
     <Routes>
       <Route path="" element={<Layout />}>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+
+        <Route path="/login" element={<Login />} />
 
         <Route element={<UserAuthentication />}>
           <Route path="/dashboard" element={<Dashboard />} />
