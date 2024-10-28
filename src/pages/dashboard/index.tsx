@@ -59,18 +59,18 @@ function Dashboard() {
           <li key={member.socioUId}>
             <Link
               to={`/dashboard/${member.socioNumeroSocio}`}
-              className="h-20 grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm hover:bg-slate-200"
+              className="h-auto grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm hover:bg-slate-200"
             >
-              <figure className="row-span-2 inline-flex items-center justify-center rounded-full bg-cec_primaryDarker">
-                <User className="w-10 h-10 stroke-cec_secondaryDark" />
+              <figure className="row-span-2 inline-flex items-center justify-center">
+                <User className="w-14 h-14 p-2 rounded-full bg-cec_primaryDarker stroke-cec_secondaryDark" />
               </figure>
-              <span className="font-body font-medium text-lg text-black pt-1 col-span-2">
+              <span className="font-body font-medium text-lg text-black pt-1 col-span-2 leading-tight">
                 {member.socioName.trim()}
               </span>
-              <span className="text-Inter text-lg text-black -mt-1">
+              <span className="text-Inter text-lg text-black -mt-1 leading-snug">
                 <strong className="underline">DNI</strong>: {member.socioDni}
               </span>
-              <span className="text-Inter text-lg text-black -mt-1">
+              <span className="text-Inter text-lg text-black -mt-1 leading-snug">
                 <strong className="underline">Socio</strong>:{" "}
                 {member.socioNumeroSocio}
               </span>

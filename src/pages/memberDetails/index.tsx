@@ -43,12 +43,12 @@ function MemberDetails() {
           {memberDetails?.socioName.trim() ?? "NOMBRE DEL SOCIO"}
         </h1>
 
-        <span className="text-base text-center border-r border-cec_primaryDark">
+        <span className="text-base text-center leading-snug px-1 border-r border-cec_primaryDark">
           <strong className="underline">DNI</strong>:{" "}
           {memberDetails?.socioDni ?? "SIN DATO"}
         </span>
 
-        <span className="text-base text-center">
+        <span className="text-base text-center leading-snug px-1">
           <strong className="underline">Socio</strong>:{" "}
           {memberDetails?.socioNumeroSocio ?? "SIN DATO"}
         </span>
