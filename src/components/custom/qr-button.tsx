@@ -8,11 +8,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-import { QrCode } from "lucide-react";
+import QRCode from "react-qr-code";
 
-import QrExample from "@/assets/images/qr-example.svg";
+import { Member } from "@/types";
 
-function QrButton() {
+import { QrCode as QrCodeIcon } from "lucide-react";
+
+interface QrButtonProps {
+  member: Member | null;
+}
+
+function QrButton({ member }: QrButtonProps) {
   return (
     <>
       <Dialog>
@@ -22,21 +28,23 @@ function QrButton() {
             className="flex items-center gap-x-3 rounded-lg bg-cec_primary mx-auto col-span-2 text-base font-body font-bold"
           >
             Generar QR
-            <QrCode className="w-6" />
+            <QrCodeIcon className="w-6" />
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Control de acceso al club</DialogTitle>
-            <DialogDescription className="text-xl font-semibold text-center">
-              ** PROXIMAMENTE **
+            <DialogDescription className="text-xl font-semibold text-center mt-2">
+              {member?.socioName.trim() ?? "NOMBRE DEL SOCIO"}
             </DialogDescription>
           </DialogHeader>
-          <figure className="inline-flex justify-center items-center">
-            <img
-              src={QrExample}
-              alt=""
-              className="max-w-52 p-2 border border-cec_primary rounded-md"
+          <figure className="w-fit inline-flex justify-center items-center mx-auto p-2 border border-cec_primaryDarker rounded-md">
+            <QRCode
+              value={member?.socioNumeroSocio.toString() ?? ""}
+              size={256}
+              bgColor="#ffffff"
+              fgColor="#0F1F30"
+              level="Q"
             />
           </figure>
         </DialogContent>

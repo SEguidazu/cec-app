@@ -75,7 +75,7 @@ function MemberDetails() {
         </div>
 
         <div className="col-span-2">
-          <QrButton />
+          <QrButton member={memberDetails} />
         </div>
       </section>
 
