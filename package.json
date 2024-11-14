@@ -16,7 +16,7 @@
     "@radix-ui/react-label": "2.0.2",
     "@radix-ui/react-select": "2.0.0",
     "@radix-ui/react-slot": "1.0.2",
-    "axios": "1.7.4",
+    "axios": "^1.7.4",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
     "lucide-react": "0.378.0",
@@ -45,7 +45,7 @@
     "postcss": "8.4.38",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.5",
-    "vite": "5.2.12",
+    "vite": "^5.2.12",
     "vite-plugin-pwa": "0.20.0"
   }
 }
