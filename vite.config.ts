@@ -10,6 +10,12 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      registerType: "autoUpdate",
+      injectRegister: "auto",
+      devOptions: {
+        enabled: true,
+        type: "module",
+      },
       manifest: {
         display: "standalone",
         display_override: ["window-controls-overlay"],
@@ -20,20 +26,28 @@ export default defineConfig({
           "Web PWA para control de acceso de socios del club CEC Liceo Militar",
         theme_color: "#0F1F30",
         background_color: "#0F1F30",
+        start_url: "/",
+        scope: "/",
         icons: [
           {
-            src: "favicon-64x64.png",
+            src: "pwa-64x64.png",
             sizes: "64x64",
             type: "image/png",
           },
           {
-            src: "favicon-192x192.png",
+            src: "pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "any",
           },
           {
-            src: "favicon-512x512.png",
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "maskable-icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
