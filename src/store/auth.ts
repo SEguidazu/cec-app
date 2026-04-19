@@ -16,6 +16,7 @@ interface AuthState {
   user: User | null;
   members: Array<Member>;
   accessToken: string | null;
+  isAuthenticated: boolean;
   loggedIn: ({ user, accessToken }: LoggedInProps) => void;
   loggedOut: () => void;
   addMembers: ({ members }: AddMembersProps) => void;
@@ -28,15 +29,25 @@ const useAuthStore = create<AuthState>()(
         user: null,
         members: [],
         accessToken: null,
+        isAuthenticated: false,
         loggedIn: ({ user, accessToken }) =>
-          set(() => ({ user: user, accessToken: accessToken })),
+          set(() => ({
+            user: user,
+            accessToken: accessToken,
+            isAuthenticated: true,
+          })),
         loggedOut: () =>
-          set(() => ({ user: null, members: [], accessToken: null })),
+          set(() => ({
+            user: null,
+            members: [],
+            accessToken: null,
+            isAuthenticated: false,
+          })),
         addMembers: ({ members }) => set(() => ({ members: members })),
       }),
-      { name: "authStore" }
-    )
-  )
+      { name: "authStore" },
+    ),
+  ),
 );
 
 export default useAuthStore;

@@ -1,15 +1,20 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import useAuthStore from "@/store/auth";
 
-const UserAuthentication = () => {
+interface UserAuthenticationProps {
+  children?: React.ReactNode;
+}
+
+const UserAuthentication: React.FC<UserAuthenticationProps> = ({
+  children,
+}) => {
   const user = useAuthStore((state) => state.user);
   const accessToken = useAuthStore((state) => state.accessToken);
-  const location = useLocation();
 
   return user && accessToken ? (
-    <Outlet />
+    <>{children}</>
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to="/login" replace />
   );
 };
 

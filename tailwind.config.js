@@ -20,7 +20,13 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ["Gotham", ...defaultTheme.fontFamily.sans],
+        body: [
+          "Gotham",
+          "Inter",
+          "system-ui",
+          "sans-serif",
+          ...defaultTheme.fontFamily.sans,
+        ],
       },
       colors: {
         border: "hsl(var(--border))",
