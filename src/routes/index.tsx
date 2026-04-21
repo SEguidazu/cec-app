@@ -11,25 +11,35 @@ import Login from "@/pages/login";
 import Registro from "@/pages/registro";
 import Dashboard from "@/pages/dashboard";
 import MemberDetails from "@/pages/memberDetails";
+import Contacto from "@/pages/contacto";
 
-import UserAuthentication from "@/routes/guard/UserAuthentication";
-import useAuthStore from "@/store/auth";
+import { protectedLoader, publicLoader } from "@/routes/loaders";
 
 const queryClient = new QueryClient();
 
 const AppRoutes = () => (
   <Routes>
-    {/* <Route path="" element={<Layout />}> */}
     <Route path="/" element={<Navigate to="/dashboard" />} />
 
-    <Route path="/login" element={<Login />} />
-    <Route path="/registro" element={<Registro />} />
+    <Route path="/login" element={<Login />} loader={publicLoader} />
+    <Route path="/registro" element={<Registro />} loader={publicLoader} />
 
-    <Route element={<UserAuthentication />}>
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/dashboard/:memberId" element={<MemberDetails />} />
+    <Route element={<Layout />}>
+      <Route
+        path="/dashboard"
+        element={<Dashboard />}
+        loader={protectedLoader}
+      />
+      <Route path="/perfil" element={<Dashboard />} loader={protectedLoader} />
+      <Route path="/plan" element={<Dashboard />} loader={protectedLoader} />
+      <Route path="/cuotas" element={<Dashboard />} loader={protectedLoader} />
+      <Route
+        path="/familia"
+        element={<MemberDetails />}
+        loader={protectedLoader}
+      />
+      <Route path="/contacto" element={<Contacto />} loader={protectedLoader} />
     </Route>
-    {/* </Route> */}
   </Routes>
 );
 

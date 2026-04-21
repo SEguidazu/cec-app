@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/useToast";
 
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-import { ArrowLeft, ArrowRight, Badge, Check, Link } from "lucide-react";
+import { ArrowLeft, ArrowRight, Badge, Check } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec.svg";
 
 import { mockPlanes } from "@/mock/common_mocks";

@@ -1,101 +1,174 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { memberService } from "@/service/memberService";
-import { isAxiosError } from "axios";
-import useAuthStore from "@/store/auth";
+import useAuthStore, { useCurrentMember } from "@/store/auth";
 
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import Footer from "@/components/custom/footer";
+import {
+  Badge,
+  Calendar,
+  CreditCard,
+  FileText,
+  Trophy,
+  User,
+  Users,
+} from "lucide-react";
 
-import { AlertCircle, User } from "lucide-react";
-
-import { Member } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function Dashboard() {
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const members = useAuthStore((state) => state.members);
-  const addMembers = useAuthStore((state) => state.addMembers);
-  const loggedOut = useAuthStore((state) => state.loggedOut);
+  const user = useAuthStore((state) => state.user);
+  const currentMember = useCurrentMember();
 
-  const [errorMsg, setErrorMsg] = useState<string>("");
-
-  useEffect(() => {
-    const fetchMemberData = async () => {
-      try {
-        if (!members || members.length === 0) {
-          const response = await memberService.fetchMemberData(accessToken!);
-
-          addMembers({ members: response });
-          setErrorMsg("");
-        }
-      } catch (error) {
-        if (isAxiosError(error)) {
-          setErrorMsg(
-            error?.response?.data?.errorMessage ??
-              "Se produjo un error inesperado, intente iniciar sesión nuevamente."
-          );
-        } else {
-          setErrorMsg(
-            "Se produjo un error inesperado, intente nuevamente más tarde."
-          );
-        }
-      }
-    };
-
-    fetchMemberData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const quickLinks = [
+    {
+      label: "Mi Perfil",
+      icon: User,
+      to: "/perfil",
+      color: "bg-cec_primaryDarker",
+    },
+    {
+      label: "Mi Plan",
+      icon: Trophy,
+      to: "/plan",
+      color: "bg-cec_secondaryDark",
+    },
+    {
+      label: "Cuotas",
+      icon: CreditCard,
+      to: "/cuotas",
+      color: "bg-cec_secondaryDark",
+    },
+    {
+      label: "Familia",
+      icon: Users,
+      to: "/familia",
+      color: "bg-cec_secondaryDark",
+    },
+  ];
 
   return (
-    <div className="max-w-md w-full mx-auto p-4 bg-white">
-      <h1 className="font-body font-bold text-xl text-black mb-2">¡Hola!</h1>
-      <p className="text-Inter text-lg text-black mb-5">
-        Selecciona alguno de tus asociados para poder ver su informaci&oacute;n:
-      </p>
+    <div className="space-y-6">
+      {/* Welcome */}
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">
+          ¡Hola, <span className="text-cec_secondaryDark">{user?.name}</span>!
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Bienvenido al portal de socios del CEC Liceo Militar
+        </p>
+      </div>
 
-      <ul className="grid gap-3">
-        {members.map((member: Member) => (
-          <li key={member.socioUId}>
-            <Link
-              to={`/dashboard/${member.socioNumeroSocio}`}
-              className="h-auto grid grid-cols-[60px_1fr_1fr] grid-rows-2 gap-2 p-2 border border-cec_primaryDark rounded-md shadow-sm hover:bg-slate-200"
-            >
-              <figure className="row-span-2 inline-flex items-center justify-center">
-                <User className="w-14 h-14 p-2 rounded-full bg-cec_primaryDarker stroke-cec_secondaryDark" />
-              </figure>
-              <span className="font-body font-medium text-lg text-black pt-1 col-span-2 leading-tight">
-                {member.socioName.trim()}
-              </span>
-              <span className="text-Inter text-lg text-black -mt-1 leading-snug">
-                <strong className="underline">DNI</strong>: {member.socioDni}
-              </span>
-              <span className="text-Inter text-lg text-black -mt-1 leading-snug">
-                <strong className="underline">Socio</strong>:{" "}
-                {member.socioNumeroSocio}
-              </span>
+      {/* Summary cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Estado de Cuota
+            </CardTitle>
+            <CreditCard className="w-5 h-5 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {/* {cuotaPendiente ? (
+              <>
+                <p className="text-2xl font-bold">
+                  ${cuotaPendiente.monto.toLocaleString()}
+                </p>
+                <Badge className="mt-1 bg-warning text-warning-foreground">
+                  Pendiente — {cuotaPendiente.mes}
+                </Badge>
+              </>
+            ) : (
+              <Badge className="bg-success text-success-foreground">
+                Al día
+              </Badge>
+            )} */}
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Plan Actual
+            </CardTitle>
+            <Trophy className="w-5 h-5 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {/* <p className="text-2xl font-bold">{planActual?.nombre}</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              ${planActual?.precio.toLocaleString()}/mes
+            </p> */}
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Próxima Actividad
+            </CardTitle>
+            <Calendar className="w-5 h-5 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">Sábado 19</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Torneo Rugby — 10:00 hs
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick links */}
+      <div>
+        <h2 className="text-lg font-semibold text-foreground mb-3">
+          Accesos rápidos
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {quickLinks.map((link) => (
+            <Link key={link.to} to={link.to}>
+              <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <CardContent className="flex flex-col items-center justify-center py-6 gap-3">
+                  <div
+                    className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
+                    <link.icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm font-medium text-foreground">
+                    {link.label}
+                  </span>
+                </CardContent>
+              </Card>
             </Link>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
 
-      {!!errorMsg && (
-        <Alert className="col-span-2 mt-2" variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Tuvimos un problema.</AlertTitle>
-          <AlertDescription>{errorMsg}</AlertDescription>
-        </Alert>
-      )}
-
-      <Footer />
-
-      <Button
-        type="submit"
-        className="flex items-center gap-x-2 font-body text-base text-white rounded-md mt-6 bg-cec_primary"
-        onClick={() => loggedOut()}
-      >
-        Cerrar sesi&oacute;n
-      </Button>
+      {/* Socio info */}
+      <Card className="shadow-sm">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <FileText className="w-5 h-5 text-accent" /> Datos del Socio
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div>
+              <span className="text-muted-foreground">Nº Socio</span>
+              <p className="font-semibold">{currentMember?.socioNumeroSocio}</p>
+            </div>
+            <div>
+              <span className="text-muted-foreground">DNI</span>
+              <p className="font-semibold">{currentMember?.socioDni}</p>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Categoría</span>
+              <p className="font-semibold">{currentMember?.categoriaSocio}</p>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Situación</span>
+              <Badge className="bg-success text-success-foreground mt-1">
+                {currentMember?.situacion}
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
