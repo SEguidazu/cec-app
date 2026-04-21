@@ -1,12 +1,20 @@
 import { Outlet } from "react-router-dom";
+import { useIsMobile } from "@/hooks/useMobile";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/custom/AppSidebar";
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/useMobile";
+import InstallBanner from "@/components/custom/InstallBanner";
+
+import { Download } from "lucide-react";
 import LiceoMilitarEscudoCEC from "@/assets/images/cec-liceo-militar-escudo.png";
+import { cn } from "@/lib/utils";
 
 const Layout = () => {
   const isMobile = useIsMobile();
+  const { isIOS, isInstalled, canInstall, installApp } = usePWAInstall();
+  const showIOSBanner = isIOS && !isInstalled;
+  const showInstallButton = canInstall && !isInstalled;
 
   return (
     <SidebarProvider>
@@ -15,16 +23,31 @@ const Layout = () => {
         <div className="flex-1 flex flex-col">
           <header
             className={cn(
-              "h-14 flex items-center border-b bg-card px-4 relative",
+              "h-14 flex items-center justify-between border-b bg-card px-4",
               isMobile && "bg-cec_primaryDark",
             )}
           >
             <SidebarTrigger className={cn(isMobile && "text-white")} />
+            {showInstallButton && (
+              <button
+                id="pwa-install-button"
+                onClick={installApp}
+                aria-label="Instalar aplicación"
+                className={cn(
+                  "ml-auto mr-4 flex items-center gap-2 px-3 py-2 rounded-lg  border text-xs font-semibold backdrop-blur-sm transition-all duration-200 active:scale-95 shadow-md",
+                  isMobile &&
+                    "bg-white/10 hover:bg-white/20 border-white/20 text-white",
+                )}
+              >
+                <Download size={15} />
+                <span>Instalar App</span>
+              </button>
+            )}
             {isMobile && (
               <img
                 src={LiceoMilitarEscudoCEC}
                 alt=""
-                className="max-w-36 w-full absolute right-4"
+                className="max-w-36 w-full"
               />
             )}
           </header>
@@ -32,6 +55,7 @@ const Layout = () => {
             <Outlet />
           </main>
         </div>
+        {showIOSBanner && <InstallBanner />}
       </div>
     </SidebarProvider>
   );
