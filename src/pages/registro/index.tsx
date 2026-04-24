@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/useToast";
+import { usePlusPagos } from "@/hooks/usePlusPagos";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -40,6 +40,7 @@ function Registro() {
   const [step, setStep] = useState<number>(0);
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const { toast } = useToast();
+  const { isLoading: isPaymentLoading, initiatePayment, error: paymentError } = usePlusPagos();
 
   const form = useForm<z.infer<typeof personalSchema>>({
     resolver: zodResolver(personalSchema),
@@ -75,6 +76,25 @@ function Registro() {
         description: "Debes seleccionar una membresía para continuar",
         variant: "destructive",
       });
+      return;
+    }
+    if (step === 2) {
+      // Iniciar proceso de pago con PlusPagos
+      const selectedPlanData = mockPlanes.find((p) => p.id === selectedPlan);
+      if (selectedPlanData) {
+        const success = await initiatePayment({
+          monto: selectedPlanData.precio,
+        });
+        if (success) {
+          handleFinish();
+        } else {
+          toast({
+            title: "Error al procesar el pago",
+            description: paymentError || "Ocurrió un error al iniciar el proceso de pago",
+            variant: "destructive",
+          });
+        }
+      }
       return;
     }
     setStep(step + 1);
@@ -151,12 +171,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -179,12 +193,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -210,12 +218,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -249,12 +251,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -280,12 +276,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -309,12 +299,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -339,12 +323,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -367,12 +345,6 @@ function Registro() {
                             className={fieldState.invalid ? "border-destructive" : fieldState.isDirty && !fieldState.invalid ? "border-success" : ""}
                           />
                         </FormControl>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -414,12 +386,6 @@ function Registro() {
                             ))}
                           </SelectContent>
                         </Select>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -453,12 +419,6 @@ function Registro() {
                             <SelectItem value="email">Email</SelectItem>
                           </SelectContent>
                         </Select>
-                        {fieldState.isDirty && !fieldState.invalid && (
-                          <div className="flex items-center gap-1 text-xs text-success">
-                            <Check className="w-3 h-3" />
-                            <span>Válido</span>
-                          </div>
-                        )}
                         <FormMessage id={`${field.name}-error`} />
                       </FormItem>
                     )}
@@ -500,28 +460,27 @@ function Registro() {
           {step === 2 && (
             <div className="space-y-4 text-center py-8">
               <Badge className="bg-accent text-accent-foreground text-sm px-4 py-1">
-                Pago simulado
+                Procesando pago con PlusPagos
               </Badge>
               <p className="text-muted-foreground">
-                En una implementación real, aquí se integraría Mercado Pago u
-                otro medio de pago.
+                Al confirmar, se iniciará el proceso de pago seguro con Click de Pago Tecnologia Macro.
               </p>
-              <div className="border rounded-lg p-6 max-w-sm mx-auto space-y-3">
-                <div className="space-y-2">
-                  <Label>Número de tarjeta</Label>
-                  <Input placeholder="4242 4242 4242 4242" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label>Vencimiento</Label>
-                    <Input placeholder="12/28" />
+              {selectedPlan && (
+                <div className="border rounded-lg p-6 max-w-sm mx-auto space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Plan seleccionado:</span>
+                    <span className="font-bold">
+                      {mockPlanes.find((p) => p.id === selectedPlan)?.nombre}
+                    </span>
                   </div>
-                  <div className="space-y-2">
-                    <Label>CVV</Label>
-                    <Input placeholder="123" />
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Monto a pagar:</span>
+                    <span className="font-bold text-lg">
+                      ${mockPlanes.find((p) => p.id === selectedPlan)?.precio.toLocaleString()}
+                    </span>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
           <div className="flex justify-between mt-8">
@@ -536,7 +495,7 @@ function Registro() {
                 </Button>
               </Link>
             )}
-            {step < 3 ? (
+            {step < 2 ? (
               <Button
                 onClick={handleNextStep}
                 className="bg-accent text-accent-foreground hover:bg-accent/90"
@@ -545,10 +504,17 @@ function Registro() {
               </Button>
             ) : (
               <Button
-                onClick={handleFinish}
+                onClick={handleNextStep}
+                disabled={isPaymentLoading}
                 className="bg-accent text-accent-foreground hover:bg-accent/90"
               >
-                <Check className="w-4 h-4 mr-1" /> Confirmar Registro
+                {isPaymentLoading ? (
+                  "Procesando..."
+                ) : (
+                  <>
+                    <Check className="w-4 h-4 mr-1" /> Confirmar Pago
+                  </>
+                )}
               </Button>
             )}
           </div>
