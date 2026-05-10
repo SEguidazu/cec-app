@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { getPlusPagosService } from "@/services/pluspagos";
-import type { PlusPagosPaymentParams, PlusPagosEncryptedData } from "@/types/pluspagos";
+import type { PlusPagosPaymentParams } from "@/types/pluspagos";
 
 export function usePlusPagos() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [encryptedData, setEncryptedData] = useState<PlusPagosEncryptedData | null>(null);
 
   /**
-   * Prepara los datos encriptados para el pago
+   * Inicia el proceso de pago mediante POST al gateway de Click de Pago
    */
-  const preparePayment = async (params: PlusPagosPaymentParams): Promise<PlusPagosEncryptedData | null> => {
+  const initiatePayment = async (params: PlusPagosPaymentParams): Promise<boolean> => {
     setIsLoading(true);
     setError(null);
 
@@ -21,42 +20,51 @@ export function usePlusPagos() {
         throw new Error("Configuración de PlusPagos inválida");
       }
 
-      const data = service.encryptPaymentData(params);
-      console.log({ data })
-      setEncryptedData(data);
-      return data;
+      // Generar FormData con los datos encriptados y planos
+      const formData = service.generatePostData(params);
+      const gatewayUrl = service.getGatewayUrl();
+
+      // Crear formulario dinámico para realizar el POST y redirigir al usuario
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = gatewayUrl;
+      form.style.display = "none";
+
+      // Agregar todos los campos del FormData al formulario como inputs hidden
+      formData.forEach((value, key) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value as string;
+        form.appendChild(input);
+      });
+
+      // Agregar el formulario al documento y enviarlo
+      document.body.appendChild(form);
+      form.submit();
+
+      // Aunque el navegador redirigirá, es buena práctica limpiar el DOM
+      // si por alguna razón la navegación no fuera inmediata
+      setTimeout(() => {
+        if (document.body.contains(form)) {
+          document.body.removeChild(form);
+        }
+      }, 500);
+
+      return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Error al preparar el pago";
+      const errorMessage = err instanceof Error ? err.message : "Error al iniciar el pago";
       setError(errorMessage);
       console.error("PlusPagos error:", err);
-      return null;
+      return false;
     } finally {
       setIsLoading(false);
     }
   };
 
-  /**
-   * Inicia el proceso de pago (redirección al gateway)
-   */
-  const initiatePayment = async (params: PlusPagosPaymentParams): Promise<boolean> => {
-    const data = await preparePayment(params);
-
-    if (!data) {
-      return false;
-    }
-
-    // Aquí iría la lógica de redirección al gateway de PlusPagos
-    // Por ahora solo logueamos los datos encriptados
-    console.log("Datos encriptados para pago:", data);
-
-    return true;
-  };
-
   return {
     isLoading,
     error,
-    encryptedData,
-    preparePayment,
     initiatePayment,
   };
 }

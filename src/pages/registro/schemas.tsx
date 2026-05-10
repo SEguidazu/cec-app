@@ -22,7 +22,7 @@ export const personalSchema = z.object({
     .min(1, "El email es requerido."),
   phone: z
     .string({ required_error: "El teléfono es requerido." })
-    .min(8, "El teléfono es requerido."),
+    .min(8, "El teléfono debe tener al menos 8 dígitos."),
   address: z.string().min(1, "La dirección es requerida."),
   city: z.string().min(1, "La ciudad es requerida."),
   country: z.string().min(1, "El país es requerido."),
