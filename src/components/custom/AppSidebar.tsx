@@ -12,7 +12,9 @@ import {
   SidebarMenuItem,
   SidebarFooter,
   useSidebar,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 import {
   Home,
@@ -46,19 +48,26 @@ export function AppSidebar() {
       <SidebarContent className="bg-cec_primaryDark">
         {/* Logo */}
         <div
-          className={`flex items-center gap-3 px-4 py-5 ${collapsed ? "justify-center" : ""}`}
-        >
-          <div className="w-10 h-10 rounded-lg bg-cec_primaryDarker flex items-center justify-center flex-shrink-0">
-            <img src={EscudoCEC} alt="" className="w-8 h-8" />
-          </div>
-          {!collapsed && (
-            <div className="min-w-0">
-              <p className="font-bold text-sm text-white/90 truncate">
-                CEC Liceo Militar
-              </p>
-              <p className="text-xs text-white/80 truncate">{socio?.name}</p>
-            </div>
+          className={cn(
+            `flex justify-between items-center gap-3 px-4 py-5 transition-all duration-200`,
+            collapsed && "flex-col-reverse",
           )}
+        >
+          <div className="flex gap-2">
+            <figure className="w-10 h-10 rounded-lg bg-cec_primaryDarker flex items-center justify-center flex-shrink-0">
+              <img src={EscudoCEC} alt="" className="w-8 h-8" />
+            </figure>
+            {!collapsed && (
+              <div className="min-w-0">
+                <p className="font-bold text-sm text-white/90 truncate">
+                  CEC Liceo Militar
+                </p>
+                <p className="text-xs text-white/80 truncate">{socio?.name}</p>
+              </div>
+            )}
+          </div>
+
+          <SidebarTrigger className="text-white/80" />
         </div>
 
         <SidebarGroup>

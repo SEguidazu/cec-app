@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { memberService } from "@/service/memberService";
+import { memberService } from "@/services/memberService";
 import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

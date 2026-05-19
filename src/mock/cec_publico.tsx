@@ -1,5 +1,5 @@
 import { AxiosRequestHeaders, AxiosResponse } from "axios";
-import { LoginResponse, MemberResponse } from "@/service/types/member";
+import { LoginResponse, MemberResponse } from "@/services/types/member";
 
 export const LOGIN_RESPONSE_200: AxiosResponse<LoginResponse> = {
   data: {
