@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import EscudoCEC from "@/assets/images/cec.svg";
 
 import { Member } from "@/types";
-import QrButton from "@/components/custom/qr-button";
+import QrButton from "@/components/custom/QrButton";
 
 function MemberDetails() {
   const members = useAuthStore((state) => state.members);
@@ -18,7 +18,7 @@ function MemberDetails() {
   useEffect(() => {
     const memberSelected =
       members.find(
-        (member: Member) => member.socioNumeroSocio === Number(memberId)
+        (member: Member) => member.socioNumeroSocio === Number(memberId),
       ) ?? null;
 
     setMemberDetails(memberSelected);

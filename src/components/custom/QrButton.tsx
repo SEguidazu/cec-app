@@ -6,31 +6,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 import QRCode from "react-qr-code";
 
 import { Member } from "@/types";
 
 import { QrCode as QrCodeIcon } from "lucide-react";
+import { Card, CardContent } from "../ui/card";
 
 interface QrButtonProps {
   member: Member | null;
+  children: React.ReactNode;
 }
 
-function QrButton({ member }: QrButtonProps) {
+function QrButton({ member, children }: QrButtonProps) {
   return (
     <>
       <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            size="lg"
-            className="flex items-center gap-x-3 rounded-lg bg-cec_primary mx-auto col-span-2 text-base font-body font-bold"
-          >
-            Generar QR
-            <QrCodeIcon className="w-6" />
-          </Button>
-        </DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Control de acceso al club</DialogTitle>

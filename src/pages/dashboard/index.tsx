@@ -3,27 +3,21 @@ import useAuthStore, { useCurrentMember } from "@/store/auth";
 
 import {
   Badge,
-  Calendar,
   CreditCard,
   FileText,
+  QrCodeIcon,
   Trophy,
-  User,
   Users,
 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import QrButton from "@/components/custom/QrButton";
 
 function Dashboard() {
   const user = useAuthStore((state) => state.user);
   const currentMember = useCurrentMember();
 
   const quickLinks = [
-    {
-      label: "Mi Perfil",
-      icon: User,
-      to: "/perfil",
-      color: "bg-cec_primaryDarker",
-    },
     {
       label: "Mi Plan",
       icon: Trophy,
@@ -56,6 +50,45 @@ function Dashboard() {
         </p>
       </div>
 
+      {/* Quick links */}
+      <div>
+        <h2 className="text-lg font-semibold text-foreground mb-3">
+          Accesos rápidos
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <QrButton member={currentMember}>
+            <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+              <CardContent className="flex flex-col items-center justify-center py-6 gap-3">
+                <div
+                  className={`w-12 h-12 rounded-xl bg-cec_primaryDarker flex items-center justify-center group-hover:scale-110 transition-transform`}
+                >
+                  <QrCodeIcon className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <span className="text-sm font-medium text-foreground">
+                  QR Acceso
+                </span>
+              </CardContent>
+            </Card>
+          </QrButton>
+          {quickLinks.map((link) => (
+            <Link key={link.to} to={link.to}>
+              <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <CardContent className="flex flex-col items-center justify-center py-6 gap-3">
+                  <div
+                    className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
+                    <link.icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm font-medium text-foreground">
+                    {link.label}
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="shadow-sm">
@@ -66,6 +99,7 @@ function Dashboard() {
             <CreditCard className="w-5 h-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
+            <p className="text-2xl font-bold">{currentMember?.situacion}</p>
             {/* {cuotaPendiente ? (
               <>
                 <p className="text-2xl font-bold">
@@ -91,14 +125,16 @@ function Dashboard() {
             <Trophy className="w-5 h-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            {/* <p className="text-2xl font-bold">{planActual?.nombre}</p>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-2xl font-bold">
+              {currentMember?.categoriaSocio}
+            </p>
+            {/* <p className="text-sm text-muted-foreground mt-1">
               ${planActual?.precio.toLocaleString()}/mes
             </p> */}
           </CardContent>
         </Card>
 
-        <Card className="shadow-sm">
+        {/* <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               Próxima Actividad
@@ -111,32 +147,7 @@ function Dashboard() {
               Torneo Rugby — 10:00 hs
             </p>
           </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick links */}
-      <div>
-        <h2 className="text-lg font-semibold text-foreground mb-3">
-          Accesos rápidos
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {quickLinks.map((link) => (
-            <Link key={link.to} to={link.to}>
-              <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
-                <CardContent className="flex flex-col items-center justify-center py-6 gap-3">
-                  <div
-                    className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
-                  >
-                    <link.icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <span className="text-sm font-medium text-foreground">
-                    {link.label}
-                  </span>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+        </Card> */}
       </div>
 
       {/* Socio info */}

@@ -20,13 +20,20 @@ class MemberService implements IMemberService {
   private MEMBER_URL: string = "/user/socios";
 
   async login(dni: number, memberId: number) {
-    const { data: memberData }: AxiosResponse<LoginResponse> =
-      await apiClient.post(this.LOGIN_URL, {
+    const { data }: AxiosResponse<LoginResponse> = await apiClient.post(
+      this.LOGIN_URL,
+      {
         NroSocio: memberId,
         DNI: dni,
-      });
+      },
+    );
 
-    return memberData;
+    return {
+      accessToken: data.accessToken,
+      user: data.user,
+      hasErrors: data.hasErrors,
+      errorMessage: data.errorMessage,
+    };
   }
 
   async fetchMemberData(accessToken: string) {

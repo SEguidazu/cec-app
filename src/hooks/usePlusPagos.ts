@@ -9,7 +9,9 @@ export function usePlusPagos() {
   /**
    * Inicia el proceso de pago mediante POST al gateway de Click de Pago
    */
-  const initiatePayment = async (params: PlusPagosPaymentParams): Promise<boolean> => {
+  const initiatePayment = async (
+    params: PlusPagosPaymentParams,
+  ): Promise<boolean> => {
     setIsLoading(true);
     setError(null);
 
@@ -53,7 +55,8 @@ export function usePlusPagos() {
 
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Error al iniciar el pago";
+      const errorMessage =
+        err instanceof Error ? err.message : "Error al iniciar el pago";
       setError(errorMessage);
       console.error("PlusPagos error:", err);
       return false;

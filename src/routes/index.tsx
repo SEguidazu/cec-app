@@ -1,6 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -10,6 +13,9 @@ import Layout from "@/pages/layout";
 import Login from "@/pages/login";
 import Registro from "@/pages/registro";
 import Dashboard from "@/pages/dashboard";
+import Profile from "@/pages/profile";
+import Membership from "@/pages/membership";
+import Payment from "@/pages/payment";
 import MemberDetails from "@/pages/memberDetails";
 import Contacto from "@/pages/contacto";
 
@@ -17,31 +23,55 @@ import { protectedLoader, publicLoader } from "@/routes/loaders";
 
 const queryClient = new QueryClient();
 
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<Navigate to="/dashboard" />} />
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/dashboard" />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    loader: publicLoader,
+  },
+  {
+    path: "/registro",
+    element: <Registro />,
+    loader: publicLoader,
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    loader: protectedLoader,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "perfil",
+        element: <Profile />,
+      },
+      {
+        path: "plan",
+        element: <Membership />,
+      },
+      {
+        path: "cuotas",
+        element: <Payment />,
+      },
+      {
+        path: "familia",
+        element: <MemberDetails />,
+      },
+      {
+        path: "contacto",
+        element: <Contacto />,
+      },
+    ],
+  },
+]);
 
-    <Route path="/login" element={<Login />} loader={publicLoader} />
-    <Route path="/registro" element={<Registro />} loader={publicLoader} />
-
-    <Route element={<Layout />}>
-      <Route
-        path="/dashboard"
-        element={<Dashboard />}
-        loader={protectedLoader}
-      />
-      <Route path="/perfil" element={<Dashboard />} loader={protectedLoader} />
-      <Route path="/plan" element={<Dashboard />} loader={protectedLoader} />
-      <Route path="/cuotas" element={<Dashboard />} loader={protectedLoader} />
-      <Route
-        path="/familia"
-        element={<MemberDetails />}
-        loader={protectedLoader}
-      />
-      <Route path="/contacto" element={<Contacto />} loader={protectedLoader} />
-    </Route>
-  </Routes>
-);
+const AppRoutes = () => <RouterProvider router={router} />;
 
 function App() {
   return (
@@ -49,9 +79,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <AppRoutes />
       </TooltipProvider>
     </QueryClientProvider>
   );
