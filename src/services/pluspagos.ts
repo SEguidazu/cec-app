@@ -21,100 +21,99 @@ export class PlusPagosService {
 
   /**
    * Genera los campos de producto con índices [0, 1, 2, ...]
+   * Los nombres son Producto[n] y MontoProducto[n] según el manual (sección 3.3)
    */
   private generateProductFields(
     productos?: Array<{ descripcion: string; monto?: number }>,
-  ): { producto: Record<string, string>; montoProducto?: Record<string, string> } {
-    if (!productos || productos.length === 0) {
-      return { producto: {} };
-    }
+  ): Record<string, string> {
+    const fields: Record<string, string> = {};
 
-    const producto: Record<string, string> = {};
-    const montoProducto: Record<string, string> = {};
+    if (!productos || productos.length === 0) return fields;
 
     productos.forEach((prod, index) => {
-      producto[`PRODUCTO[${index}]`] = prod.descripcion;
+      fields[`Producto[${index}]`] = prod.descripcion;
       if (prod.monto !== undefined) {
-        montoProducto[`MONTOPRODUCTO[${index}]`] = this.transformAmount(
+        fields[`MontoProducto[${index}]`] = this.transformAmount(
           prod.monto,
         ).toString();
       }
     });
 
-    return { producto, montoProducto: Object.keys(montoProducto).length > 0 ? montoProducto : undefined };
+    return fields;
   }
 
   /**
-   * Encripta un valor si está presente
+   * Encripta un valor usando la SecretKey
    */
-  private encryptValue(value: string | undefined): string | undefined {
-    if (!value) return undefined;
+  private encryptValue(value: string): string {
     return window.AESEncrypter.encryptString(value, this.config.secretKey);
   }
 
   /**
-   * Prepara los datos encriptados según la especificación de Click de Pago
-   * Campos marcados con SÍ en la documentación se encriptan
-   */
-  private prepareEncryptedData(params: PlusPagosPaymentParams): PlusPagosEncryptedData {
-    const montoTransformado = this.transformAmount(params.monto);
-
-    return {
-      CALLBACKSUCCESS: this.encryptValue(this.config.callbackSuccess)!,
-      CALLBACKCANCEL: this.encryptValue(this.config.callbackCancel)!,
-      CALLBACKPENDING: this.encryptValue(this.config.callbackPending)!,
-      SUCURSALCOMERCIO: this.encryptValue(params.sucursalComercio),
-      USERID: this.encryptValue(params.userId),
-      MONTO: this.encryptValue(montoTransformado.toString())!,
-      INFORMACION: this.encryptValue(params.informacion),
-    };
-  }
-
-  /**
-   * Prepara los datos no encriptados según la especificación
-   */
-  private preparePlainData(params: PlusPagosPaymentParams) {
-    const { producto, montoProducto } = this.generateProductFields(params.productos);
-
-    return {
-      COMERCIO: this.config.comercio,
-      TRANSACCIONCOMERCIOID: params.transaccionComercioId,
-      PRODUCTO: producto,
-      MONTOPRODUCTO: montoProducto,
-      "CLIENTDATA.CUIT": params.clientData?.cuit,
-      "CLIENTDATA.NOMBREAPELLIDO": params.clientData?.nombreApellido,
-    };
-  }
-
-  /**
    * Genera el FormData completo para el POST al gateway
+   * Nombres de campos según manual sección 3.3 (capitalización exacta)
    */
   generatePostData(params: PlusPagosPaymentParams): FormData {
-    const encryptedData = this.prepareEncryptedData(params);
-    const plainData = this.preparePlainData(params);
+    const montoTransformado = this.transformAmount(params.monto);
 
     const formData = new FormData();
 
-    // Agregar campos encriptados
-    Object.entries(encryptedData).forEach(([key, value]) => {
-      if (value !== undefined) {
-        formData.append(key, value);
-      }
+    // --- Campos encriptados (SÍ en columna Encriptado del manual) ---
+    formData.append(
+      "CallbackSuccess",
+      this.encryptValue(this.config.callbackSuccess),
+    );
+    formData.append(
+      "CallbackCancel",
+      this.encryptValue(this.config.callbackCancel),
+    );
+    formData.append("Monto", this.encryptValue(montoTransformado.toString()));
+
+    // SucursalComercio: SIEMPRE se envía encriptado, incluso si es string vacío
+    formData.append(
+      "SucursalComercio",
+      this.encryptValue(params.sucursalComercio ?? ""),
+    );
+
+    // CallbackPending: opcional, solo se envía si hay URL
+    if (this.config.callbackPending) {
+      formData.append(
+        "CallbackPending",
+        this.encryptValue(this.config.callbackPending),
+      );
+    }
+
+    // Informacion: opcional, solo si se envía
+    if (params.informacion) {
+      formData.append("Informacion", this.encryptValue(params.informacion));
+    }
+
+    // UserId: opcional, solo para tarjetero
+    if (params.userId) {
+      formData.append("UserId", this.encryptValue(params.userId));
+    }
+
+    // --- Campos NO encriptados ---
+    formData.append("Comercio", this.config.comercio);
+    formData.append("TransaccionComercioId", params.transaccionComercioId);
+
+    // Productos y montos de productos
+    const productFields = this.generateProductFields(params.productos);
+    Object.entries(productFields).forEach(([key, value]) => {
+      formData.append(key, value);
     });
 
-    // Agregar campos no encriptados
-    Object.entries(plainData).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (typeof value === "object") {
-          // Manejar arrays como PRODUCTO[0], PRODUCTO[1], etc.
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            formData.append(subKey, subValue as string);
-          });
-        } else {
-          formData.append(key, value as string);
-        }
-      }
-    });
+    // ClientData (opcionales)
+    if (params.clientData?.cuit) {
+      formData.append("ClientData.CUIT", params.clientData.cuit);
+    }
+    if (params.clientData?.nombreApellido) {
+      formData.append(
+        "ClientData.NombreApellido",
+        params.clientData.nombreApellido,
+      );
+    }
+
     return formData;
   }
 
@@ -127,7 +126,6 @@ export class PlusPagosService {
       this.config.comercio &&
       this.config.callbackSuccess &&
       this.config.callbackCancel &&
-      this.config.callbackPending &&
       this.config.gatewayUrl
     );
   }
@@ -152,7 +150,13 @@ export const getPlusPagosService = (): PlusPagosService => {
     const callbackPending = import.meta.env.VITE_PLUSPAGOS_CALLBACK_PENDING;
     const gatewayUrl = import.meta.env.VITE_PLUSPAGOS_GATEWAY_URL;
 
-    if (!secretKey || !comercio || !callbackSuccess || !callbackCancel || !callbackPending || !gatewayUrl) {
+    if (
+      !secretKey ||
+      !comercio ||
+      !callbackSuccess ||
+      !callbackCancel ||
+      !gatewayUrl
+    ) {
       throw new Error("Faltan variables de entorno de PlusPagos");
     }
 
@@ -161,7 +165,7 @@ export const getPlusPagosService = (): PlusPagosService => {
       comercio,
       callbackSuccess,
       callbackCancel,
-      callbackPending,
+      callbackPending, // opcional
       gatewayUrl,
     });
   }

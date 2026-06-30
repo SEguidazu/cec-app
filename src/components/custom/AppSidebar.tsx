@@ -30,9 +30,9 @@ import EscudoCEC from "@/assets/images/cec.svg";
 const items = [
   { title: "Inicio", url: "/dashboard", icon: Home },
   { title: "Mi Perfil", url: "/perfil", icon: User },
-  { title: "Mi Plan", url: "/plan", icon: Trophy },
-  { title: "Cuotas", url: "/cuotas", icon: CreditCard },
-  { title: "Familia", url: "/familia", icon: Users },
+  // { title: "Mi Plan", url: "/plan", icon: Trophy },
+  // { title: "Cuotas", url: "/cuotas", icon: CreditCard },
+  // { title: "Familia", url: "/familia", icon: Users },
   { title: "Contacto", url: "/contacto", icon: Phone },
 ];
 

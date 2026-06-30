@@ -48,7 +48,7 @@ export function useRegistroWizard(): UseRegistroWizardReturn {
       address: "",
       city: "",
       country: "",
-      preferredContact: "phone",
+      preferredContact: "email",
     },
   });
 
