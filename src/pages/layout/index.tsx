@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useIsMobile } from "@/hooks/useMobile";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 
@@ -28,7 +28,9 @@ const Layout = () => {
               isMobile && "bg-cec_primaryDark",
             )}
           >
-            {isMobile && <SidebarTrigger className={cn(isMobile && "text-white")} />}
+            {isMobile && (
+              <SidebarTrigger className={cn(isMobile && "text-white")} />
+            )}
             {showInstallButton && (
               <button
                 id="pwa-install-button"
@@ -37,7 +39,7 @@ const Layout = () => {
                 className={cn(
                   "ml-auto mr-4 flex items-center gap-2 px-3 py-2 rounded-lg  border text-xs font-semibold backdrop-blur-sm transition-all duration-200 active:scale-95 shadow-md",
                   isMobile &&
-                  "bg-white/10 hover:bg-white/20 border-white/20 text-white",
+                    "bg-white/10 hover:bg-white/20 border-white/20 text-white",
                 )}
               >
                 <Download size={15} />
@@ -45,8 +47,9 @@ const Layout = () => {
               </button>
             )}
             {isMobile && (
-              <img src={EscudoCEC} alt="" className="w-8 h-8" />
-
+              <Link to="/" className="flex items-center gap-2">
+                <img src={EscudoCEC} alt="" className="w-10 h-10" />
+              </Link>
             )}
           </header>
           <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto">
