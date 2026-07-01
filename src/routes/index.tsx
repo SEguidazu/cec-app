@@ -20,6 +20,9 @@ import MemberDetails from "@/pages/memberDetails";
 import Contacto from "@/pages/contacto";
 
 import { protectedLoader, publicLoader } from "@/routes/loaders";
+import PaymentSuccess from "@/pages/payment/results/success";
+import PaymentCancel from "@/pages/payment/results/cancel";
+import PaymentPending from "@/pages/payment/results/pending";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +71,18 @@ const router = createBrowserRouter([
         element: <Contacto />,
       },
     ],
+  },
+  {
+    path: "/pago/success",
+    element: <PaymentSuccess />,
+  },
+  {
+    path: "/pago/cancel",
+    element: <PaymentCancel />,
+  },
+  {
+    path: "/pago/pending",
+    element: <PaymentPending />,
   },
 ]);
 
